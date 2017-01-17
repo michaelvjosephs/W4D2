@@ -1,0 +1,39 @@
+<% link_name = cat.persisted? ? cat_url(cat) : cats_url %>
+<form action="<%= link_name %>" method="POST">
+  <% if cat.persisted? %>
+    <input type="hidden" name="_method" value="PATCH">
+  <% end %>
+  <label for="name">Name:</label>
+  <input id="name" type="text" name="cat[name]" value="<%= cat.name %>">
+
+  <br>
+  <label>Sex:</label>
+  <label>Male</label>
+  <input type="radio" name="cat[sex]" value="M" <%= cat.sex == "M" ? 'checked' : "" %>>
+  <label>Female</label>
+  <input type="radio" name="cat[sex]" value="F" <%= cat.sex == "F" ? 'checked' : ""  %>>
+
+  <br>
+  <label for="color">Color:</label>
+  <select id="color" name="cat[color]">
+    <option value="" disabled selected>--Please select a color--</option>
+    <% cat.class::COLORS.each do |color| %>
+    <% cat_color = cat.color == color ? "selected" : "" %>
+    <option value="<%=color%>" <%=cat_color%>><%= color %></option>
+    <% end %>
+
+  </select>
+
+  <br>
+  <label for="birthdate">Birthdate:</label>
+  <input id="birthdate" type="date" name="cat[birth_date]" value="<%= cat.birth_date %>">
+
+  <br>
+  <label for="description">Description:</label><br>
+  <textarea name="cat[description]" rows="8" cols="60"><%= cat.description %></textarea>
+
+  <br>
+  <% button_word = cat.persisted? ? "edit cat" : "add cat" %>
+  <input type="submit" value="<%= button_word %>">
+
+</form>

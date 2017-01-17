@@ -1,0 +1,64 @@
+<h1><%= @cat.name %></h1>
+
+<table border=1>
+  <thead style="text-align:left">
+    <tr>
+      <th>Attribute</th>
+      <th>Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Age</td>
+      <td><%= @cat.age %></td>
+    </tr>
+    <tr>
+      <td>Birthdate</td>
+      <td><%= @cat.birth_date %></td>
+    </tr>
+    <tr>
+      <td>Color</td>
+      <td><%= @cat.color %></td>
+    </tr>
+    <tr>
+      <td>Sex</td>
+      <td><%= @cat.sex %></td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Description:</strong> <%= @cat.description %></p>
+
+<h4>Rental Requests</h4>
+<% if @requests.empty? %>
+  <p> <em>No requests at this time.</em></p>
+<% else %>
+  <table>
+    <thead>
+      <tr>
+        <!-- <th>User</th> -->
+        <th>Start Date</th>
+        <th>End Date</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @requests.each do |request| %>
+      <tr>
+        <td><%= request.start_date %></td>
+        <td><%= request.end_date %></td>
+        <td><%= request.status %></td>
+        <td>
+          <% if request.status == "PENDING" %>
+            <form action="<%= cat_rental_request_url(req) %>" method="POST">
+              <input type="hidden" name="_method" value="PATCH">
+            <input type="submit" name="cat_rental_request[status]" value="APPROVE">
+            <input type="submit" name="cat_rental_request[status]" value="DENY">
+          </form>
+          <% end %>
+        </td>
+      </tr>
+      <% end %>
+    </tbody>
+    </table>
+  <% end %>
